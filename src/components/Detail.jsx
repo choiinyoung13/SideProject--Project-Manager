@@ -32,12 +32,17 @@ export default function Detail({
   onClearTask,
   onDeleteProject,
 }) {
-  const [input, setInput] = useState('')
   const descArr = activedProject.description.split('\n')
   const dialog = useRef()
+  const input = useRef()
 
-  const onChageInput = e => {
-    setInput(e.target.value)
+  function handleAdd() {
+    if (!input.current.value.trim()) {
+      dialog.current.open()
+      return
+    }
+    onAddTask(activedProject.id, input.current.value)
+    input.current.value = ''
   }
 
   return (
@@ -73,19 +78,11 @@ export default function Detail({
           <input
             className="bg-stone-300 rounded-md p-2 flex-1 max-w-80"
             type="text"
-            value={input}
-            onChange={onChageInput}
+            ref={input}
           />
           <span
             className="text-xl text-stone-700 cursor-pointer"
-            onClick={() => {
-              if (!input.trim()) {
-                dialog.current.open()
-                return
-              }
-              onAddTask(activedProject.id, input)
-              setInput('')
-            }}
+            onClick={handleAdd}
           >
             Add Task
           </span>

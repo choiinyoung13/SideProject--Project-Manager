@@ -24,10 +24,10 @@ function App() {
     setProjects(updatedProjects)
   }
 
-  const onSaveProject = project => {
+  const onAddProject = project => {
     const nextId =
       projects.length > 0 ? projects[projects.length - 1].id + 1 : 1
-    const newProject = { id: nextId, ...project }
+    const newProject = { id: nextId, ...project, tasks: [], isActive: false }
     setProjects([...projects, newProject])
     setIsCreateMode(false)
   }
@@ -90,7 +90,7 @@ function App() {
         <Input
           isCreateMode={isCreateMode}
           onCreateMode={onCreateMode}
-          onSaveProject={onSaveProject}
+          onAddProject={onAddProject}
         />
       ) : activedProject ? (
         <Detail
